@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+  h2= subtitle
+
+  form(action="/users" method="POST")
+    input(type="text" placeholder="Name" name="name")
+    input(type="text" placeholder="email" name="email")
+    input(type="text" placeholder="zipcode" name="zipcode")
+    input(type="submit", value="GO")
+
+  each users in users
+    tabel
+      //-
+        tr #{user.email}

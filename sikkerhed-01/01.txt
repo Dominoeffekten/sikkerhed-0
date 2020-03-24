@@ -1,0 +1,33 @@
+String
+Terminalen: 
+Asynchronous? If I come first, yes!
+
+- Der kom ingen fejl ved printning, mongoose fortæller, at den er kommet igennem og koblet til mongoose
+
+Number
+Terminal:
+Asynchronous? If I come first, yes!
+primary:
+ValidationError: zipcode: Path `zipcode` (60000) is more than maximum allowed value (9999).
+
+- Der kom en fejl på siden, fordi man har overtrådt det maksimale antal af tal der må benyttes
+
+Date
+
+
+
+Unique
+- Er en særlig type, som anvendes for at give hvert element et unik path.
+Terminal:
+Asynchronous? If I come first, yes!
+Connected to server by mongoose
+primary:
+MongoError: E11000 duplicate key error collection: testUser0.user index: email_1 dup key: { email: "rdi@iba.dk" }
+
+- Er eksempel er hvis, der ikke er unikke email adresser, så kommer der en fejl på siden. De kan være forskellige, fordi et var vi sagt i mongoose, at de skal være
+
+required
+Terminalen:
+Asynchronous? If I come first, yes!
+
+- Den skriver der ingen fejl er, fordi den bliver indtastet som "foo", fjerner man dette vil den ikke skrive noget ind, fordi den mangler nogle værdier
