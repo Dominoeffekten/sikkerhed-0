@@ -5,6 +5,8 @@ const modCountry = require("../models/handleCountries");
 const modCities = require("../models/handleCities"); 
 const modLang = require("../models/handleLanguages"); 
 const modGover = require("../models/handleGovernmentForms");
+const { body,validationResult } = require('express-validator/check');
+const { sanitizeBody } = require('express-validator/filter');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -35,6 +37,22 @@ router.get('/country', async function(req, res, next) {// load country site
 });
 router.post('/country', async function(req, res, next) {// add new country
     let postCountry = modCountry.postCountry(req);
+
+    /* //virker ikke
+    body('name', 'Name is empty').trim().isLength({ min: 1 });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        // There are errors. Render form again with sanitized values and error messages.
+        Book.find({},'title')
+            .exec(function (err, books) {
+                if (err) { return next(err); }
+                // Successful, so render.
+                res.render('bookinstance_form', { title: 'Create BookInstance', book_list: books, selected_book: bookinstance.book._id , errors: errors.array(), bookinstance: bookinstance });
+        });
+        return;
+    }
+*/
+
     res.render('country', {
         scriptLink:'/javascripts/country.js',
         subtitle: 'The countries',

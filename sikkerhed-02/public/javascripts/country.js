@@ -5,6 +5,8 @@ import { Ajax } from "./modules/Ajax.js";
 /*
  * Event handler for button - create ajax object and get data
  */
+
+ 
  const getContinents = function (ev) { //Continents
      let req = Object.create(Ajax);
      req.init();
