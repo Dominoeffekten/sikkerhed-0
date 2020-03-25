@@ -35,17 +35,12 @@ exports.upsert = async function(url, dbn, obj, query, chk) {
     await mongoose.connect(constr, conparam);
     const db = mongoose.connection;
     let stuff = null;
-    let newquery = query.toObject();            // ny
-    delete newquery._id;                     // ny 
+    let newquery = query.toObject();
+    delete newquery._id;                  
     try {
-      stuff = await obj.updateOne(chk, newquery, {        // ændret
-      upsert: true                                        // 1 linje fjernet, må sikkert gerne være der
+      stuff = await obj.updateOne(chk, newquery, {     
+      upsert: true                                        
       });
-    //try {
-    //    stuff = await obj.updateOne(chk, query, {
-    //        upsert: true,
-    //        new: true
-    //    });
     } catch(err) {
         console.log(error);
     } finally {

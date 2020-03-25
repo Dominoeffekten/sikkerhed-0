@@ -5,8 +5,8 @@ const modCountry = require("../models/handleCountries");
 const modCities = require("../models/handleCities"); 
 const modLang = require("../models/handleLanguages"); 
 const modGover = require("../models/handleGovernmentForms");
-const { body,validationResult } = require('express-validator/check');
-const { sanitizeBody } = require('express-validator/filter');
+const { body,validationResult,sanitizeBody,check } = require('express-validator');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -35,24 +35,18 @@ router.get('/country', async function(req, res, next) {// load country site
         subtitle: 'The countries',
     });
 });
-router.post('/country', async function(req, res, next) {// add new country
+router.post('/country', [
+    check('name', 'Name is empty').isLength({ min: 1 }),
+    check('code', 'code is to short').isLength({ min: 3, max: 3 }),
+    check('code2', 'code is to short').isLength({ min: 2, max: 2 })
+], async function(req, res, next) {// add new country
     let postCountry = modCountry.postCountry(req);
 
-    /* //virker ikke
-    body('name', 'Name is empty').trim().isLength({ min: 1 });
-    const errors = validationResult(req);
+    const errors = validationResult(req)
     if (!errors.isEmpty()) {
-        // There are errors. Render form again with sanitized values and error messages.
-        Book.find({},'title')
-            .exec(function (err, books) {
-                if (err) { return next(err); }
-                // Successful, so render.
-                res.render('bookinstance_form', { title: 'Create BookInstance', book_list: books, selected_book: bookinstance.book._id , errors: errors.array(), bookinstance: bookinstance });
-        });
-        return;
+        console.log("not there");
+        res.send(`<p>The name, countrycode with 3 or 2 cifre is missing or wrong </p> <a href="/country">Back<a> ` )
     }
-*/
-
     res.render('country', {
         scriptLink:'/javascripts/country.js',
         subtitle: 'The countries',
@@ -92,8 +86,17 @@ router.get('/city', async function(req, res, next) { // load the site
         subtitle: 'The cities',
     });
 });
-router.post('/cities', async function(req, res, next) {// add new country
+router.post('/cities', [
+    check('name', 'Name is empty').isLength({ min: 1 }),
+    check('countrycode', 'code is to short').isLength({ min: 3, max: 3 }),
+],async function(req, res, next) {// add new country
     let postLang = modCities.postCity(req);
+
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        console.log("not there");
+        return res.send(`<p>The name or countrycode is missing or wrong </p> <a href="/city">Back<a> ` )
+    }
     res.render('city', {
         scriptLink:'/javascripts/citypage.js',
         subtitle: 'The cities',
@@ -129,7 +132,6 @@ router.get('/cities/:city', async function(req, res, next) { // loads the db con
 router.post('/city', async function(req, res, next) { // deletes country from db
     console.log(req.body.name);
     let delCity = modCities.delCities({oldid: req.body.name});
-    console.log("Yah du kom herind");
     res.render('city', {
         scriptLink:'/javascripts/citypage.js',
         subtitle: 'The cities'
